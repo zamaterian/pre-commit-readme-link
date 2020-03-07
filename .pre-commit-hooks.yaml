@@ -1,0 +1,9 @@
+- id: readme-submodule
+  name: Add sub readme.md
+  description: Inserts sub readmes into README.md.
+  require_serial: true
+  entry: ./readme-submodule.sh
+  args: []
+  language: script
+  files: (\.md)$
+  exclude: \.terraform\/.*$
