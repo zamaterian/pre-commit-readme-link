@@ -5,11 +5,11 @@ To be used with [pre-commit framework](http://pre-commit.com/)
 
 ## How to install
 
-### 1. Install dependencies
+### Install dependencies
 
 * [`pre-commit`](https://pre-commit.com/#install)
 
-### 3. Add configs and hooks
+### Add configs and hooks
 
 Step into the repository you want to have the pre-commit hooks installed and run:
 
@@ -23,7 +23,7 @@ cat <<EOF > .pre-commit-config.yaml
 EOF
 ```
 
-### 4. Run
+###  Run
 
 After pre-commit hook has been installed you can run it manually on all files in the repository
 
@@ -34,18 +34,16 @@ pre-commit run -a
 
 Check the [source file](https://github.com/zamaterian/pre-commit-readme-link/blob/master/.pre-commit-hooks.yaml) to know arguments used for each hook.
 
-## Notes about the hooks
+### Configuration
 
-1. 
 ```
 <!-- BEGINNING OF PRE-COMMIT-README DOCS HOOK -->
 
 <!-- END OF PRE-COMMIT-README DOCS HOOK -->
 ```
-if they are present in `README.md`.
+if they are present in `README.md`. The links to sub readme will be added here.
 
-
-    1. Example:
+    1. Example with excluding files where path or filename contains either test and example:
     ```yaml
     hooks:
       - id: readme-submodule
