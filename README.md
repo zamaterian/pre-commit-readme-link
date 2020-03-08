@@ -1,4 +1,6 @@
-# a simpel git hook for adding sub .md to main readme to be used with [pre-commit framework](http://pre-commit.com/)
+# a simpel git hook for adding sub .md to main readme
+
+To be used with [pre-commit framework](http://pre-commit.com/)
 
 
 ## How to install
