@@ -2,29 +2,24 @@
 
 # here because of set -e
 read -r -d '' HEADER <<-'EOF'
-	## Submodule 
+	## Submodule
 EOF
 
 set -e
 
 main() {
 	declare argv
-	argv=$(getopt -o a: --long args,exclude: -- "$@") || return
+	argv=$(getopt -o a: --long args: -- "$@") || return
 	eval "set -- $argv"
 
 	declare args
 	declare files
-	declare EXCLUDE
 	for argv; do
 		case $argv in
 		-a | --args)
 			shift
 			args="$1"
 			shift
-			;;
-		-e | --exclude)
-			EXCLUDE=$2
-			shift 2
 			;;
 		--)
 			shift
@@ -41,28 +36,6 @@ add_submodules() {
 	readonly args="$2"
 	files="$3"
 	declare -a paths
-
-	argv="$2" #$(getopt --long exclude,include: -- "$2")
-	eval set -- "$argv"
-	while [ ! $# -eq 0 ]; do
-		case "$1" in
-		-e | --exclude)
-			EXCLUDE=$2
-			shift 2
-			;;
-		--)
-			shift
-			break
-			;;
-		*) break ;;
-		esac
-	done
-
-	if [[ ! $EXCLUDE == "" ]]; then
-		files=$(echo $files | tr ' ' '\n' | grep -v -E "$EXCLUDE")
-	fi
-
-	echo "exclude " $EXCLUDE
 
 	index=0
 	for file_with_path in $files; do
@@ -83,7 +56,7 @@ add_submodules() {
 
 	echo "$HEADER" >$tmp_file
 
-	for path_uniq in $(echo "${paths[*]}" | sort -u); do
+	for path_uniq in $(echo "${paths[*]}" | tr ' ' '\n' | sort -u); do
 
 		path_uniq="${path_uniq//__REPLACED__SPACE__/ }"
 

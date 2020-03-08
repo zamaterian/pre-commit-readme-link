@@ -17,7 +17,7 @@ Step into the repository you want to have the pre-commit hooks installed and run
 git init
 cat <<EOF > .pre-commit-config.yaml
 - repo: git://github.com/zamaterian/pre-commit-readme-link
-  rev: <VERSION> # should be a sha 
+  rev: <VERSION> # should be a sha
   hooks:
     - id: readme-submodule
 EOF
@@ -43,17 +43,10 @@ Check the [source file](https://github.com/zamaterian/pre-commit-readme-link/blo
 ```
 if they are present in `README.md`. The links to sub readme will be added here.
 
-    1. Example with excluding files where path or filename contains either test and example:
-    ```yaml
-    hooks:
-      - id: readme-submodule
-        args: ['--exclude "test|example"']
-    ```
-The exclude is using `grep -v -E "pattern to exclude"`
 
 ## CREDIT
 
-This repository is based upon work by [Anton Babenko](https://github.com/antonbabenko) 
+This repository is based upon work by [Anton Babenko](https://github.com/antonbabenko)
 ## License
 
 MIT licensed. See LICENSE for full details.
