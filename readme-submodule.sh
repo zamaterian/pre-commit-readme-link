@@ -9,17 +9,22 @@ set -e
 
 main() {
 	declare argv
-	argv=$(getopt -o a: --long args: -- "$@") || return
+	argv=$(getopt -o a: --long args,exclude: -- "$@") || return
 	eval "set -- $argv"
 
 	declare args
 	declare files
+	declare EXCLUDE
 	for argv; do
 		case $argv in
 		-a | --args)
 			shift
 			args="$1"
 			shift
+			;;
+		-e | --exclude)
+			EXCLUDE=$2
+			shift 2
 			;;
 		--)
 			shift
