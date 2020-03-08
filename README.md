@@ -51,8 +51,7 @@ if they are present in `README.md`.
       - id: readme-submodule
         args: ['--exclude "test|example"']
     ```
-
-1. It is possible to pass additional arguments to shell scripts when using `terraform_docs` and `terraform_docs_without_aggregate_type_defaults`. Send pull-request with the new hook if there is something missing.
+The exclude is using `grep -v -E "pattern to exclude"`
 
 ## CREDIT
 
