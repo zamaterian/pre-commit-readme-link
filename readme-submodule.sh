@@ -63,7 +63,7 @@ add_submodules() {
     pushd "$path_uniq" > /dev/null
 
     if [[ -f "$text_file" ]]; then
-      echo "* [$path_uniq]( ./$path_uniq/$text_file )  " >> $tmp_file
+      echo "* [$path_uniq]( ./$path_uniq/$text_file )" >> $tmp_file
       popd > /dev/null
       continue
     fi
