@@ -43,7 +43,6 @@ main() {
 add_submodules() {
   readonly args="$2"
   files="$3"
-  echo $files
   declare -a paths
   files=$(find . -not -path '*/\.*' -name 'README.md' | sed "s|^\./||")
   index=0
@@ -78,12 +77,10 @@ add_submodules() {
   files=$(grep 'git@' *.tf | sort -u)
 
   while IFS= read -r path_uniq; do
-    echo "faz ?? $path_uniq"
     title=$(echo $path_uniq | grep 'git@' | awk -F':' '{print $1}')
     version=$(echo $path_uniq | grep 'git@' | awk -F'?ref=' '{print $2}' | tr -d '"')
     ref=$(echo $path_uniq | grep -ho 'git@.*' | tr -d '"')
     echo "| $title |$version | $ref " >> $tmp_file
-    echo "| $title |$version | $ref "
   done <<< "$files"
 
   # Replace content between markers with the placeholder - https://stackoverflow.com/questions/1212799/how-do-i-extract-lines-between-two-line-delimiters-in-perl#1212834
