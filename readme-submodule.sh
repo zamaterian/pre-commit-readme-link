@@ -35,8 +35,11 @@ main() {
 add_submodules() {
   readonly args="$2"
   files="$3"
+  echo $files
   declare -a paths
-
+  files=$(find -name 'README.md' -not -path '\.*')
+  echo ""
+  echo $files
   index=0
   for file_with_path in $files; do
     file_with_path="${file_with_path// /__REPLACED__SPACE__}"
