@@ -2,7 +2,15 @@
 
 # here because of set -e
 read -r -d '' HEADER <<- 'EOF'
-	## Submodule
+## Submodule
+|Module|Readme
+|---|---
+EOF
+
+read -r -d '' VERSIONS <<- 'EOF'
+## VERSIONS
+|Used in |Version|Git path
+|---|---|---
 EOF
 
 set -e
@@ -37,15 +45,10 @@ add_submodules() {
   files="$3"
   echo $files
   declare -a paths
-  files=$(find -name 'README.md' -not -path '\.*')
-  echo ""
-  echo $files
+  files=$(find . -not -path '*/\.*' -name 'README.md' | sed "s|^\./||")
   index=0
   for file_with_path in $files; do
-    file_with_path="${file_with_path// /__REPLACED__SPACE__}"
-
     # ignore files in root
-
     path=$(dirname "$file_with_path")
     if [[ ! "$path" == "." ]]; then
       paths[index]=$(dirname "$file_with_path")
@@ -65,15 +68,23 @@ add_submodules() {
 
     pushd "$path_uniq" > /dev/null
 
-    if [[ -f "$text_file" ]]; then
-      echo "* [$path_uniq]( ./$path_uniq/$text_file )" >> $tmp_file
-      popd > /dev/null
-      continue
-    fi
-
+    title=$(grep '#' $text_file | head -n 1 | tr -d '#')
+    echo "| $title |[$path_uniq]( ./$path_uniq/$text_file )" >> $tmp_file
     popd > /dev/null
-
+    continue
   done
+
+  echo "$VERSIONS" >> $tmp_file
+  files=$(grep 'git@' *.tf | sort -u)
+
+  while IFS= read -r path_uniq; do
+    echo "faz ?? $path_uniq"
+    title=$(echo $path_uniq | grep 'git@' | awk -F':' '{print $1}')
+    version=$(echo $path_uniq | grep 'git@' | awk -F'?ref=' '{print $2}' | tr -d '"')
+    ref=$(echo $path_uniq | grep -ho 'git@.*' | tr -d '"')
+    echo "| $title |$version | $ref " >> $tmp_file
+    echo "| $title |$version | $ref "
+  done <<< "$files"
 
   # Replace content between markers with the placeholder - https://stackoverflow.com/questions/1212799/how-do-i-extract-lines-between-two-line-delimiters-in-perl#1212834
   perl -i -ne 'if (/BEGINNING OF PRE-COMMIT-README DOCS HOOK/../END OF PRE-COMMIT-README DOCS HOOK/) { print $_ if /BEGINNING OF PRE-COMMIT-README DOCS HOOK/; print "I_WANT_TO_BE_REPLACED\n$_" if /END OF PRE-COMMIT-README DOCS HOOK/;} else { print $_ }' "$text_file"
