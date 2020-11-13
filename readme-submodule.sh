@@ -80,7 +80,7 @@ add_submodules() {
     title=$(echo $path_uniq | grep 'git@' | awk -F':' '{print $1}')
     version=$(echo $path_uniq | grep 'git@' | awk -F'?ref=' '{print $2}' | tr -d '"')
     ref=$(echo $path_uniq | grep -ho 'git@.*' | tr -d '"')
-    echo "| $title |$version | $ref" >> $tmp_file
+    echo "| $title |$version |$ref" >> $tmp_file
   done <<< "$files"
 
   # Replace content between markers with the placeholder - https://stackoverflow.com/questions/1212799/how-do-i-extract-lines-between-two-line-delimiters-in-perl#1212834
